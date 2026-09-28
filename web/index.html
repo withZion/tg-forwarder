@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Telegram Forwarder</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <header>
+    <h1>Telegram Forwarder</h1>
+    <p class="sub">Runs on this machine. Your session never leaves it.</p>
+  </header>
+
+  <main>
+    <div id="banner" class="banner" hidden></div>
+
+    <!-- Sign in -->
+    <section id="login-card" class="card" hidden>
+      <h2>Sign in</h2>
+
+      <div id="step-phone">
+        <p class="hint">
+          Get an <strong>api_id</strong> and <strong>api_hash</strong> from
+          <a href="https://my.telegram.org" target="_blank" rel="noreferrer">my.telegram.org</a>
+          &rarr; API development tools.
+        </p>
+        <label>api_id <input id="api_id" inputmode="numeric" autocomplete="off" /></label>
+        <label>api_hash <input id="api_hash" autocomplete="off" /></label>
+        <label>Phone number <input id="phone" placeholder="+1234567890" autocomplete="off" /></label>
+        <button id="send-code">Send code</button>
+      </div>
+
+      <div id="step-code" hidden>
+        <p class="hint">Telegram sent a login code to your app. Enter it below.</p>
+        <label>Login code <input id="code" inputmode="numeric" autocomplete="off" /></label>
+        <button id="submit-code">Verify</button>
+      </div>
+
+      <div id="step-password" hidden>
+        <p class="hint">Two-step verification is on. Enter your cloud password.</p>
+        <label>Password <input id="password" type="password" autocomplete="off" /></label>
+        <button id="submit-password">Confirm</button>
+      </div>
+    </section>
+
+    <!-- Account -->
+    <section id="account-card" class="card row" hidden>
+      <div>
+        <h2 id="account-name">Signed in</h2>
+        <p class="hint" id="account-detail"></p>
+      </div>
+      <button id="logout" class="ghost">Log out</button>
+    </section>
+
+    <!-- Task list -->
+    <section id="tasks-card" class="card" hidden>
+      <div class="row">
+        <h2>Tasks</h2>
+        <div class="actions">
+          <button id="refresh-chats" class="ghost small">Refresh chats</button>
+          <button id="new-task" class="small">New task</button>
+        </div>
+      </div>
+      <div id="task-list"></div>
+    </section>
+
+    <!-- Task editor -->
+    <section id="editor-card" class="card" hidden>
+      <div class="row">
+        <h2 id="editor-title">Edit task</h2>
+        <span id="editor-running" class="pill" hidden>running</span>
+      </div>
+
+      <label>Task name <input id="task-name" placeholder="e.g. News into Digest" /></label>
+
+      <label class="inline">Mode
+        <select id="task-mode">
+          <option value="forward">Forward (keeps "Forwarded from")</option>
+          <option value="copy">Copy (re-send as your own)</option>
+        </select>
+      </label>
+
+      <details id="rules" class="rules">
+        <summary>Rules <span id="rules-count" class="pill" hidden></span></summary>
+
+        <div class="rules-body">
+          <h3>What to forward</h3>
+          <label>Only forward if the text contains <span class="tip">one per line, any match passes, leave empty for no restriction</span>
+            <textarea id="rule-allow" rows="3"></textarea>
+          </label>
+          <label>Never forward if the text contains <span class="tip">one per line</span>
+            <textarea id="rule-block" rows="3"></textarea>
+          </label>
+
+          <div class="checks">
+            <label class="check"><input type="checkbox" id="rule-skip-media" /> Skip photos, video and files</label>
+            <label class="check"><input type="checkbox" id="rule-skip-text-only" /> Skip messages with no media</label>
+            <label class="check"><input type="checkbox" id="rule-require-link" /> Only forward messages containing a link</label>
+            <label class="check"><input type="checkbox" id="rule-skip-forwards" /> Skip messages already forwarded from elsewhere</label>
+          </div>
+
+          <h3>Edit the text <span class="tip">copy mode only</span></h3>
+          <p id="copy-only-note" class="warn-note" hidden>
+            This task is in forward mode, so these edits cannot apply. A forward is the
+            original message untouched. Switch to copy mode to use them.
+          </p>
+
+          <div class="checks">
+            <label class="check"><input type="checkbox" id="rule-strip-links" /> Remove links</label>
+            <label class="check"><input type="checkbox" id="rule-strip-mentions" /> Remove @mentions</label>
+          </div>
+
+          <label>Find and replace <span class="tip">one per line, written as find =&gt; replace</span>
+            <textarea id="rule-replacements" rows="3" placeholder="Join our channel =&gt; "></textarea>
+          </label>
+          <label>Footer to append <span class="tip">added to the end of every message</span>
+            <textarea id="rule-footer" rows="2"></textarea>
+          </label>
+        </div>
+      </details>
+
+      <input id="search" class="search" placeholder="Search your groups and channels" />
+      <div class="legend"><span>Source</span><span>Destination</span></div>
+      <div id="chat-list" class="chat-list"></div>
+      <p class="hint" id="editor-summary"></p>
+
+      <div class="actions">
+        <button id="save-task">Save</button>
+        <button id="cancel-edit" class="ghost">Cancel</button>
+        <button id="delete-task" class="ghost danger">Delete task</button>
+      </div>
+    </section>
+
+    <!-- Activity -->
+    <section id="log-card" class="card" hidden>
+      <h2>Activity</h2>
+      <div id="log" class="log"></div>
+    </section>
+  </main>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

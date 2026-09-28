@@ -1,0 +1,9 @@
+# Contains your live Telegram session and API credentials. Never commit.
+data/
+*.session
+*.session-journal
+
+__pycache__/
+*.pyc
+.venv/
+venv/
