@@ -173,3 +173,7 @@ local port binding.
 The interface follows Apple's Human Interface Guidelines with Apple's system
 colours. [design.md](design.md) documents the colours, type, spacing, layout
 and every place it departs from Apple's rules.
+
+## License
+
+MIT. See [LICENSE](LICENSE). The Inter font in `web/fonts/` is distributed under the SIL Open Font License.
