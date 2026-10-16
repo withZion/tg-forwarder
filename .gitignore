@@ -11,3 +11,6 @@ venv/
 # Wrangler local cache (website deploys)
 .wrangler/
 node_modules/
+
+# The landing page has its own repo (withZion/*-website), checked out here.
+/website/
