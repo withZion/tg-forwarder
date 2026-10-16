@@ -1,0 +1,9 @@
+{
+  // Forwarder landing page: static files only.
+  // Deploy from this website folder:  npx wrangler deploy
+  "$schema": "https://unpkg.com/wrangler@4.146.0/config-schema.json",
+  "name": "tg-forwarder",
+  "compatibility_date": "2026-10-01",
+  "assets": { "directory": "public", "not_found_handling": "404-page" },
+  "observability": { "enabled": true }
+}

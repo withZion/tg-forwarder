@@ -7,3 +7,7 @@ __pycache__/
 *.pyc
 .venv/
 venv/
+
+# Wrangler local cache (website deploys)
+.wrangler/
+node_modules/
